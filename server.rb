@@ -11,14 +11,24 @@ while connection = tcp_server.accept
         next if file == './' + __FILE__
         load file 
     end  
-    request = []
+    request_text = []
 
-    request << connection.gets until request[-1] == "\r\n"
-    
+    request_text << connection.gets until request_text[-1] == "\r\n"
+    request = Request.new(request_text)
+    puts request.path
     puts 'new connection received'
+    # Our client is expecting these lines before our content 
     connection.print "HTTP/1.1 200\r\n" # 1
     connection.print "Content-Type: text/html\r\n" # 2
     connection.print "\r\n" # 3
-    connection.print get_response 
+    
+    response = case request.path 
+    when '/'
+        'hello'
+    when '/time'
+        Time.now 
+    end 
+   
+    connection.print response
     connection.close 
 end 
