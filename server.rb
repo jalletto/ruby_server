@@ -14,19 +14,15 @@ puts 'waiting for connection'
 
 
 while connection = tcp_server.accept 
-
     reload 
+
     
     request_text = []
 
     request_text << connection.gets until request_text[-1] == "\r\n"
     
     request = Request.new(request_text)
-    # p request.path 
     response = Router.process(request)
-    
-# 
-   
     connection.print response
     connection.close 
 end 

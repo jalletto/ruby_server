@@ -66,7 +66,7 @@ post_req = [
       end
 
 
-r = case request.path 
+# r = case request.path 
 #     when '/'
 #         response = Response.new
 #         response.status = 200
