@@ -1,6 +1,5 @@
-require 'pry'
-
 class Request
+    
     attr_reader :request, :request_line
     attr_accessor :body
     
@@ -9,7 +8,7 @@ class Request
         request_text.pop
         @request = request_text
         @request_line = request.shift.split(' ')
-        @body = ''
+        @body = nil
     end 
 
     def method 
@@ -41,35 +40,24 @@ class Request
         end 
     end 
 
+    def pars_params(params_string)
+        params_string.split('&').reduce({}) do |param_hash, param| 
+            key_and_value = param.split('=')
+            param_hash.update(key_and_value[0].to_sym => key_and_value[1])
+        end 
+    end 
+
     def params 
         if path.include?('?')
-            params = path.split('?')[1].split('&').reduce({}) do |param_hash, param| 
-                key_and_value = param.split('=')
-                param_hash.update(key_and_value[0].to_sym => key_and_value[1])
-            end 
+            params = pars_params(path.split('?')[1])
+        elsif body
+            params = pars_params(body)
         end 
         params 
     end 
 
     def accepts?(type)
         headers[:accept].include?(type)
-    end 
-     
+    end     
 end 
 
-
-
-get_req  = [
-    "GET /form?firstname=Mickey&lastname=Mouse HTTP/1.1\r\n", 
-    "Host: localhost:9292\r\n", 
-    "Connection: keep-alive\r\n", 
-    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36\r\n", 
-    "Accept: image/webp,image/apng,image/*,*/*;q=0.8\r\n", 
-    "Referer: http://localhost:9292/\r\n", 
-    "Accept-Encoding: gzip, deflate, br\r\n", 
-    "Accept-Language: en-US,en;q=0.9,es;q=0.8\r\n", 
-    "\r\n"
-]
-
-# r = Request.new(get_req)
-# binding.pry 

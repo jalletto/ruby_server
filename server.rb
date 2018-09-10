@@ -24,7 +24,7 @@ while connection = tcp_server.accept
     if request.headers.key?(:content_length)
        request.body = connection.readpartial(request.headers[:content_length].to_i)  
     end 
-    
+    binding.pry 
     response = Router.process(request)
     connection.print response
     connection.close 
