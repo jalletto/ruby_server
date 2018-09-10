@@ -11,16 +11,14 @@ end
 
 tcp_server = TCPServer.new 9292
 puts 'waiting for connection'
-counter = 0
+
 while connection = tcp_server.accept 
-    #  Thread.start(conn) do |connection|
     reload 
 
     request_text = []
 
     request_text << connection.gets until request_text[-1] == "\r\n" 
 
-    p request_text
     request = Request.new(request_text)
     
     if request.headers.key?(:content_length)
@@ -30,5 +28,4 @@ while connection = tcp_server.accept
     response = Router.process(request)
     connection.print response
     connection.close 
-    #  end 
 end 
