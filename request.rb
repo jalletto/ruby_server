@@ -43,6 +43,7 @@ class Request
     def pars_params(params_string)
         params_string.split('&').reduce({}) do |param_hash, param| 
             key_and_value = param.split('=')
+            key_and_value[1].gsub!('+',' ') if key_and_value[1].include?('+')
             param_hash.update(key_and_value[0].to_sym => key_and_value[1])
         end 
     end 
