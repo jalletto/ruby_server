@@ -1,3 +1,5 @@
+require 'csv'
+
 class Router 
    
     @@routes = []
