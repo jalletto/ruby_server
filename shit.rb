@@ -92,8 +92,4 @@ post_req = [
 #         response.body = 'Your request was not found.'
 #         response
 #     end 
-require 'csv'
-# fact_row = CSV.readlines("facts.csv")
 
- 
-# p fact_row.length
