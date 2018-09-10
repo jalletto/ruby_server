@@ -13,10 +13,25 @@ class Router
     end 
 
     def self.register(method, path, &block)
-        self.routes << [method, path, block]
+        self.routes << {method: method, path: path, block: block}
     end 
 
     def self.process(request)
-        self.routes.find { |route| route[2] == request.path.match(route[1]).call(request)         
+      requested_route = self.routes.find do |route| 
+           request.method.downcase == route[:method] && request.path.match(route[:path]) 
+      end        
+      requested_route ? requested_route[:block].call(request) : Response.new.status = 404
     end 
+
+    # def self.register(method, path, &block)
+    #     self.routes << [method, path, block]
+    # end 
+
+    # def self.process(request)
+    #     self.routes.find do |route|
+    #         return route[2].call(request) if request.path.match(route[1]) && route[0].downcase == request.method.downcase
+    #     end  
+    # end 
 end 
+
+

@@ -8,16 +8,6 @@ Router.register('get', /\/time/) do |request|
     response
 end 
 
-Router.register('get', /\/facts\/new/) do |request|
-    response = Response.new
-    response.status = 200
-    response.content_type = "text/html"
-    renderer = ERB.new(get_view('form.html.erb'))
-    response.body = renderer.result()
-    response
-end 
-
-
 Router.register("get", /\/facts\/(\d+)/) do |request|
   fact_id = /\/facts\/(\d+)/.match(request.path)[1]
   fact = CSV.readlines("facts.csv").find do |row|
@@ -29,12 +19,22 @@ Router.register("get", /\/facts\/(\d+)/) do |request|
   response.content_type = "text/html"
   renderer = ERB.new(get_view('fact.html.erb'))
   response.body = renderer.result(binding())
+  # response.body = 'hello'
   
   response
 end
 
+Router.register('get', /\/facts\/new/) do |request|
+    response = Response.new
+    response.status = 200
+    response.content_type = "text/html"
+    renderer = ERB.new(get_view('form.html.erb'))
+    response.body = renderer.result()
+    response
+end 
+
 Router.register('post', /\/facts/) do |request|
-   number_of_facts = CSV.readlines("facts.csv").length
+  number_of_facts = CSV.readlines("facts.csv").length
    number_for_new_fact = (number_of_facts + 1).to_s
    new_fact = request.params[:fact]
     
@@ -42,10 +42,12 @@ Router.register('post', /\/facts/) do |request|
      csv << [number_for_new_fact, new_fact]
    end 
 
-    response = Response.new
-    response.status = 200
-    response.content_type = "text/html"
-    response.body = request.body
+    # response = Response.new
+    # response.status = 303
+    # response.content_type = "text/html"
+    # response.location = ''
+    # response.body = request.body
+   
 
-    response
+   "HTTP/1.1 303 See Other\r\nLocation: http://localhost:9292/facts/#{number_for_new_fact}"
 end 
