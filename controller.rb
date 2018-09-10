@@ -22,7 +22,7 @@ Router.register('post', /\/user/) do |request|
     response = Response.new
     response.status = 200
     response.content_type = "text/html"
-    response.body = request.headers
+    response.body = request.body
 
     response
 end 

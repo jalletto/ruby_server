@@ -1,11 +1,11 @@
 require 'pry'
 
 class Request
-    attr_reader :request, :request_line, :body
+    attr_reader :request, :request_line
+    attr_accessor :body
     
     def initialize(request_text)
-        # remove our line return we won't need it. 
-       
+        # remove our line return we won't need it.   
         request_text.pop
         @request = request_text
         @request_line = request.shift.split(' ')
@@ -47,7 +47,6 @@ class Request
                 key_and_value = param.split('=')
                 param_hash.update(key_and_value[0].to_sym => key_and_value[1])
             end 
-
         end 
         params 
     end 
@@ -72,5 +71,5 @@ get_req  = [
     "\r\n"
 ]
 
-r = Request.new(get_req)
+# r = Request.new(get_req)
 # binding.pry 
