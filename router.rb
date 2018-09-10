@@ -17,8 +17,6 @@ class Router
     end 
 
     def self.process(request)
-        self.routes.each do |route|
-            return route[2].call(request) if request.path.match(route[1])        
-        end  
+        self.routes.find { |route| route[2] == request.path.match(route[1]).call(request)         
     end 
 end 
