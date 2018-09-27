@@ -1,5 +1,4 @@
 require 'socket'
-require 'pry'
 require 'erb'
 
 def reload
@@ -15,6 +14,8 @@ puts 'waiting for connection'
 while connection = tcp_server.accept 
     reload 
 
+    p Router.routes
+
     request_text = []
 
     request_text << connection.gets until request_text[-1] == "\r\n" 
@@ -23,7 +24,7 @@ while connection = tcp_server.accept
     
     if request.headers.key?(:content_length)
        request.body = connection.readpartial(request.headers[:content_length].to_i)  
-    end 
+    end   
     
     response = Router.process(request)
     connection.print response

@@ -13,25 +13,16 @@ class Router
     end 
 
     def self.register(method, path, &block)
-        self.routes << {method: method, path: path, block: block}
+        self.routes << { method: method, path: path, block: block }
     end 
 
     def self.process(request)
       requested_route = self.routes.find do |route| 
            request.method.downcase == route[:method] && request.path.match(route[:path]) 
       end        
-      requested_route ? requested_route[:block].call(request) : Response.new.status = 404
+      requested_route ? requested_route[:block].call(request) : "HTTP/1.1 404 Not Found \r\n"
     end 
 
-    # def self.register(method, path, &block)
-    #     self.routes << [method, path, block]
-    # end 
-
-    # def self.process(request)
-    #     self.routes.find do |route|
-    #         return route[2].call(request) if request.path.match(route[1]) && route[0].downcase == request.method.downcase
-    #     end  
-    # end 
 end 
 
 

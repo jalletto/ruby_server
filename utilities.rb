@@ -7,4 +7,3 @@ def get_view(view_path)
         end
     view
 end 
-
