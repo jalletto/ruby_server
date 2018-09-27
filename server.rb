@@ -14,8 +14,6 @@ puts 'waiting for connection'
 while connection = tcp_server.accept 
     reload 
 
-    p Router.routes
-
     request_text = []
 
     request_text << connection.gets until request_text[-1] == "\r\n" 
