@@ -42,7 +42,6 @@ Router.register('post', /\/facts/) do |request|
    CSV.open("./facts.csv", "ab") do |csv|
      csv << [number_for_new_fact, new_fact]
    end 
-  #  We return an http redirect which tells the browser to make a get to /facts/(whatever our new num is)
    "HTTP/1.1 303 See Other\r\nLocation: http://localhost:9292/facts/#{number_for_new_fact}"
 end 
 
