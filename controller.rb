@@ -34,6 +34,18 @@ Router.register('get', /\/facts\/new/) do |request|
   response
 end 
 
+Router.register('get', /\/facts/) do |request|
+  facts = CSV.readlines("facts.csv")
+
+  response = Response.new
+  response.status = 200
+  response.content_type = "text/html"
+  renderer = ERB.new(get_view('facts.html.erb'))
+  response.body = renderer.result(binding())
+  
+  response
+end 
+
 Router.register('post', /\/facts/) do |request|
   number_of_facts = CSV.readlines("facts.csv").length
   number_for_new_fact = (number_of_facts + 1).to_s

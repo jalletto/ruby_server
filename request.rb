@@ -51,7 +51,7 @@ class Request
   def params 
     if path.include?('?')
       params = pars_params(path.split('?')[1])
-    elsif bodystr
+    elsif body
       params = pars_params(body)
     end 
     params 
