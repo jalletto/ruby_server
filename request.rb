@@ -4,7 +4,7 @@ class Request
   attr_accessor :body
   
   def initialize(request_text)
-    # remove our line return we won't need it.   
+    # remove line return we won't need it.   
     request_text.pop
     @request = request_text
     @request_line = request.shift.split(' ')
@@ -29,9 +29,9 @@ class Request
 
   def headers
     request.reduce({}) do | request_hash, header|
-      # split our string on space (tried splitting on colon but that was breaking up the url)
+      # split string on space (tried splitting on colon but that was breaking up the url)
       arrayed_header = header.split(' ') 
-      # prep our headers 
+      # prep  headers 
       header_title = arrayed_header[0].tr(':','').downcase
       
       header_title.sub!('-', '_') if header_title.include?('-')
