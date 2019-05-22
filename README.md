@@ -1,6 +1,6 @@
 ## Ruby Server 
 
-A simple http server built for my own education. I dug into Sinatra and Rails code to try to get a better understanding of HTTP and frameworks work. 
+A simple http server built for my own education. 
 
 Run `ruby server.rb` to start the server on `http://localhost:9292`. 
 
